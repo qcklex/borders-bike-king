@@ -1,0 +1,2001 @@
+/* IMPORTED FONT
+   ────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Audacity Script';
+  src: url('../assets/fonts/Audacity\ Script.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+/* COLOR PALETTE (CSS Variables)
+     --primary-color    dark brown  (headings, buttons)
+     --secondary-color  gold        (highlights, accents)
+     --accent-color     forest green
+     --accent-color2    rust/orange (toast, CTA blocks)
+     --nav-bg           near-black  (navbar, footer)
+     --background-color warm cream  (page background)
+   ────────────────────────────────────────────── */
+:root {
+  --primary-color: #5C4922;
+  --secondary-color: #D5AD59;
+  --accent-color: #11362A;
+  --accent-color2: #8C4A2F;
+
+  --nav-bg: #1A1108;
+  --background-color: #F0EBE0;
+  --text-color: #1A1714;
+  --font-family: 'Inter', sans-serif;
+  --logo-font-family: 'Audacity Script';
+}
+/* NAV-BAR // LOGO LINK — SLIDING UNDERLINE ON HOVER
+   The underline bar doesn't exist until hover.
+   ::after creates an invisible line (width: 0).
+   On hover, width transitions to 100% — a
+   pure-CSS "slide in" underline with no JS.
+   ────────────────────────────────────────────── */
+.nav-logo {
+  text-decoration: none;
+  position: relative;   /* so ::after can be placed inside it */
+  display: inline-block;
+}
+/* Hidden underline bar — starts at width 0 */
+.nav-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;             /* invisible by default */
+  height: 2px;
+  background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.nav-logo:hover {
+  text-decoration: none;
+}
+/* On hover the bar grows to match the logo width */
+.nav-logo:hover::after {
+  width: 100%;
+}
+/* LOGO TEXT
+   ★  NATIVE CSS NESTING ★
+   .logo1 and .logo2 are nested INSIDE .logo using
+   modern native CSS nesting (no Sass/preprocessor).
+   Groups child styles with their parent, cleaner
+   than writing separate rules for each.
+   cubic-bezier(0.4, 0, 0.2, 1) = Material Design
+   "standard" easing for smooth transforms.
+   ────────────────────────────────────────────── */
+.logo {
+  font-family: var(--logo-font-family);
+  font-size: 2.1rem;
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Native CSS nesting */
+  .logo1 {
+    color: var(--secondary-color); /* gold */
+  }
+  .logo2 {
+    color: #ffffff;
+  }
+}
+
+/*HTML + BODY BASE
+   overflow-x: hidden on BOTH html AND body stops
+   horizontal scrollbars caused by full-width
+   elements (hero, footer etc.).
+   Dust.webp tiles at 200px as a subtle paper
+   grain texture across the whole page.
+   ────────────────────────────────────────────── */
+html {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  overflow-x: hidden;
+  background-color: var(--background-color);
+}
+html body {
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  background-image: url('../assets/background/Dust.webp');
+  background-repeat: repeat;
+  background-size: 200px;
+}
+
+/* NAVBAR
+   ★ EXTRAORDINARY TECHNIQUE — FIXED NAV + HEIGHT-0 HEADER ★
+   <header> is set to height: 0 — it takes no space
+   in the document flow. The .navbar inside it uses
+   position: fixed so it floats above all content.
+   Sections that need to start below the nav manually
+   add padding-top: calc(68px + ...) to offset.
+
+   Rounded bottom corners + layered box-shadow give
+   the navbar a lifted card-like appearance.
+   z-index: 999 keeps it above all page content.
+   ────────────────────────────────────────────── */
+header {
+  background: transparent;
+  height: 0; /* takes no flow space — navbar is position: fixed */
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 2rem;
+  height: 84px;
+  background-color: var(--nav-bg);
+  background-image: url('../assets/background/Dust.webp');
+  background-repeat: repeat;
+  background-size: 350px;
+  /* Three-layer shadow: close dark + far dark + subtle inner highlight */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7), 0 12px 48px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  border-radius: 0 0 16px 16px; /* rounded bottom corners only */
+  z-index: 999;
+  font-family: var(--font-family);
+}
+/*  NAV LINKS — PERFECTLY CENTRED
+   ★ EXTRAORDINARY TECHNIQUE ★
+   position: absolute + left: 50% + translateX(-50%)
+   centres the nav links regardless of how wide the
+   logo or right-side actions are.
+   A plain flex row can't truly centre when sibling
+   items have different widths — this absolute trick
+   solves that completely.
+   ────────────────────────────────────────────── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  text-transform: uppercase;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* shift left by half its own width */
+}
+.nav-links .dropdown {
+  display: flex;
+  align-items: center;
+  position: relative; /* anchor for the dropdown panel */
+}
+/* Right side of navbar: Login + Cart */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-right: 0.5rem;
+}
+/* Cart sits inside nav-links, after the Contact link */
+.nav-links .cart-wrapper {
+  margin-left: 1rem;
+}
+/* NAV LINK ITEMS
+   Transparent background by default.
+   Hover shows a gold underline on the <span>
+   inside the link (not the link itself) — this
+   lets the border-bottom animate cleanly without
+   shifting the layout height.
+   ────────────────────────────────────────────── */
+.nav-link-item {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.45rem 0.8rem;
+  text-decoration: none;
+  transition: color 0.18s;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  min-height: auto;
+}
+/* The <span> inside each link holds the animated underline */
+.nav-links .nav-link-item span {
+  border-bottom: 2px solid transparent; /* invisible until hover */
+  padding-bottom: 2px; /* space for the underline */
+}
+
+.nav-link-item:hover,
+.nav-link-item:focus {
+  background-color: transparent;
+  text-decoration: none;
+}
+/* Gold underline appears on hover */
+.nav-links .nav-link-item:hover span,
+.nav-links .nav-link-item:focus span {
+  border-bottom-color: var(--secondary-color);
+}
+
+/*  DROPDOWN MENU (desktop)
+   Hidden by default (display: none).
+   Revealed on .show class OR CSS hover — both JS
+   and pure-CSS hover triggers work.
+   The ::before pseudo-element adds an invisible
+   8px "bridge" above the menu so the mouse can
+   travel from the trigger into the menu without
+   the hover state collapsing mid-movement.
+   ────────────────────────────────────────────── */
+.navbar .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 160px;
+  background-color: #231a0e;
+  border: 1px solid rgba(213, 173, 89, 0.22);
+  border-radius: 8px;
+  padding: 0.35rem;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
+  margin-top: 0;
+  z-index: 1000;
+}
+.navbar .dropdown-menu.show,
+.navbar .dropdown:hover .dropdown-menu {
+  display: block;
+}
+/* Invisible hover bridge so cursor can reach the menu without it closing */
+.navbar .dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+/* DROPDOWN ARROW (chevron)
+   ★ EXTRAORDINARY TECHNIQUE — CSS TRIANGLE ★
+   No image, no icon font needed.
+   A CSS triangle = zero-width/height element with
+   three transparent borders and one solid one.
+   border-top: 0.3em solid → visible downward triangle.
+   Left and right borders are transparent, creating
+   the angled sides of the triangle shape.
+   ────────────────────────────────────────────── */
+.navbar .dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 0.35em;
+  vertical-align: 0.15em;
+  content: '';
+  border-top: 0.3em solid var(--secondary-color);
+  border-left: 0.15em solid transparent;
+  border-right: 0.15em solid transparent;
+}
+/* Dropdown items — gold underline on hover, consistent with nav links */
+.navbar .dropdown-item {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.82);
+  border-radius: 6px;
+  font-size: 0.88rem;
+  padding: 1rem 1.1rem;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+.navbar .dropdown-item span {
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+  display: inline-block;
+}
+.navbar .dropdown-item:hover span {
+  border-bottom-color: var(--secondary-color);
+}
+/* CART ICON + BADGE
+   The SVG is recoloured white using CSS filter:
+   brightness(0) = turn it black, invert(1) = flip to white.
+   No need for a separate white SVG file.
+   The badge uses position: absolute on a relative
+   parent to float the count in the top-right corner.
+   ────────────────────────────────────────────── */
+
+
+.cart-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+#cart {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1); /* recolours any SVG to white */
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+#cart:hover {
+  opacity: 1;
+}
+
+/* MAIN CONTENT AREA
+   flex: 1 stretches main to fill space between
+   the navbar and footer in a flex-column layout.
+   ────────────────────────────────────────────── */
+main {
+  width: 100%;
+  flex: 1;
+}
+
+/* HERO SECTION (homepage)
+   ★ EXTRAORDINARY TECHNIQUE — TRIPLE BACKGROUND ★
+   Three background layers stack on top of each other:
+     Layer 1: Dust.webp at 380px, offset 0 0
+     Layer 2: Dust.webp at 210px, offset 105px 105px
+              (half of 210 = perfect interleave, natural grain)
+     Layer 3: dark brown to green gradient — the coloured base
+
+   Result: a rich textured surface resembling worn leather
+   or aged paper, with zero image editing.
+
+   padding-top: calc(68px + 4rem) clears the fixed navbar
+   (68px) and adds breathing room below it.
+   ────────────────────────────────────────────── */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 58vh;
+  padding: calc(68px + 4rem) 2rem 5rem;
+  color: #fff;
+  text-align: left;
+}
+/* Carousel slides — stack behind content */
+.hero-carousel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.4s ease-in-out;
+}
+.hero-slide.active {
+  opacity: 1;
+}
+/* Dark gradient overlay — preserves brand colours, keeps text readable */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    url('../assets/background/Dust.webp'),
+    url('../assets/background/Dust.webp'),
+    linear-gradient(155deg, rgba(26,17,8,0.78) 0%, rgba(59,42,14,0.72) 55%, rgba(17,54,42,0.74) 100%);
+  background-repeat: repeat, repeat, no-repeat;
+  background-size: 380px, 210px, cover;
+  background-position: 0 0, 105px 105px, center;
+  z-index: 1;
+}
+/* Hero text and button sit above overlay */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+.hero-section h2 {
+  font-family: var(--logo-font-family);
+  font-size: 4rem;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+/* Gold accent word inside the hero heading */
+.hero-section h2 span {
+  color: var(--secondary-color);
+}
+.hero-section p {
+  font-size: 1.1rem;
+  max-width: 560px;
+  margin: 0 auto 2rem;
+  opacity: 0.78;
+  line-height: 1.7;
+  font-weight:600;
+}
+/* CTA button — uppercase gold, lifts 2px on hover */
+.hero-btn {
+  display: inline-block;
+  background: var(--secondary-color);
+  color: #1A1108;
+  padding: 0.85rem 2.4rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
+  transition: background 0.2s, transform 0.15s;
+  font-weight: 800;
+}
+.hero-btn:hover {
+  background: #e8c06a;
+  color: #1A1108;
+  transform: translateY(-2px); /* subtle lift on hover */
+  text-decoration: none;
+}
+
+/* PHOTO GRID SECTION
+   ★ EXTRAORDINARY TECHNIQUE — CSS MASK + TEXTURE ★
+   The brown background isn't applied directly.
+   A ::before pseudo-element covers the section and
+   uses mask-image to cut the colour through the dust
+   texture pattern — making the texture itself the
+   "shape" of the background. Creates an inked/printed
+   look with no image editing at all.
+
+   isolation: isolate creates a new stacking context
+   so z-index: -1 on ::before stays inside this section
+   and doesn't escape behind the page body.
+
+   pointer-events: none lets clicks pass through
+   the pseudo-element to the real content.
+   ────────────────────────────────────────────── */
+.photo-grid-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  isolation: isolate; /* contains z-index of ::before within this element */
+  border-radius: 12px;
+}
+
+/* Textured background painted using CSS mask */
+.photo-grid-section::before {
+  content: '';
+  position: absolute;
+  inset: 0; /* shorthand for top/right/bottom/left: 0 */
+  background-color: var(--primary-color);
+  -webkit-mask-image: url('../assets/background/Dust.webp'); /* Safari prefix */
+  mask-image: url('../assets/background/Dust.webp');
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  -webkit-mask-size: 400px;
+  mask-size: 400px;
+  opacity: 0.85;
+  pointer-events: none; /* invisible to clicks/interactions */
+  border-radius: inherit;
+  z-index: -1; /* behind content but inside the section */
+}
+
+.photo-grid-section h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Gold decorative bar appended after headings e.g. "RIDE THE BORDERS ——" */
+.photo-grid-section h3::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--secondary-color);
+  border-radius: 2px;
+}
+
+
+/* CSS GRID — PHOTO GALLERY
+   ★ EXTRAORDINARY TECHNIQUE — ASYMMETRIC GRID ★
+   A 3-column x 3-row fixed grid.
+   The first image (.grid-feature) explicitly spans
+   2 cols x 2 rows, making it a large feature tile.
+   The remaining 5 images auto-fill the other cells.
+   No JS, no flexbox hacks — pure CSS grid placement.
+   ────────────────────────────────────────────── */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 240px 240px 240px;
+  gap: 12px;
+}
+
+/* Feature image: top-left, spans 2 cols x 2 rows */
+.grid-feature {
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  position: relative;
+}
+
+
+/* VIDEO OVERLAY (on feature tile)
+   opacity: 0 by default.
+   JS adds .active to fade it in when a trail
+   video starts playing.
+   pointer-events: none keeps it from blocking
+   clicks on the video element beneath.
+   ────────────────────────────────────────────── */
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.video-overlay.active {
+  opacity: 1;
+}
+
+/* Brand logo shown over the video while it plays */
+.video-logo-text {
+  font-family: var(--logo-font-family);
+  font-size: 2.8rem;
+  margin: 0;
+  text-align: center;
+  line-height: 1.1;
+  user-select: none; /* prevents accidental text selection */
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  text-decoration: none;
+}
+
+.video-logo-text.visible {
+  opacity: 1;
+}
+
+.video-logo-text .logo1 {
+  color: var(--secondary-color);
+}
+
+.video-logo-text .logo2 {
+  color: #ffffff;
+}
+
+/* overflow: hidden clips the zoom animation at rounded corners */
+.grid-item {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* Images fill their cell and zoom slightly on hover (Ken Burns effect) */
+.grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crops to fill without distorting aspect ratio */
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.grid-item:hover img {
+  transform: scale(1.05);
+}
+
+
+
+/* Video fills its grid cell the same way an image would */
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* CART COUNT BADGE (JS-targeted version)
+   #cartCount is the element JS updates directly.
+   The .pulse class triggers a bounce animation
+   when items are added to the cart.
+   ────────────────────────────────────────────── */
+#cartCount {
+  position: absolute;
+  top: -7px;
+  right: -9px;
+  background-color: var(--secondary-color);
+  color: var(--nav-bg);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+/* ★ EXTRAORDINARY — elastic bounce via cubic-bezier
+   Values above 1.0 (the 1.55) and below 0 (the -0.55)
+   make the animation overshoot its target, creating a
+   spring/elastic "pop" when a product is added to cart. */
+#cartCount.pulse {
+  animation: cartPulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes cartPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+
+/* TOAST NOTIFICATION
+   Slides in from the right edge of the screen.
+   position: fixed keeps it visible above all content.
+   top: 90px clears the 84px navbar with a gap.
+   z-index: 2000 puts it above navbar (999) and
+   the cart modal (1000).
+   ────────────────────────────────────────────── */
+.toast-notification {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  background-color: var(--accent-color2);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 2000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* slight overshoot = snappy feel */
+}
+
+/* Slides in from off-screen right */
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Slides back out to the right (applied by JS on dismiss) */
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+
+
+/* CART MODAL
+   Full-screen dark overlay (50% black) shown
+   behind the cart panel.
+   display: none / display: block toggled by JS.
+   ────────────────────────────────────────────── */
+.cart-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px) opacity(1); /* subtle blur for a frosted glass effect */
+}
+
+/* Cart panel: centred, max 500px wide, pushed below navbar */
+.cart-modal-content {
+  background-color: #f4f4f4;
+  margin: calc(84px + 1rem) auto 2rem; /* 84px = navbar height */
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* x close button — float: right puts it top-right of the modal */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+/* Scrollable item list if the cart has many products */
+.cart-items {
+  margin: 1.5rem 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Each cart row: name left, remove button right.
+   Gold left-border = brand accent indicator */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: white;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  border-left: 3px solid var(--secondary-color);
+}
+
+.cart-remove {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.cart-remove:hover {
+  background-color: #c0392b;
+}
+
+.cart-price {
+  font-weight: 600;
+  color: var(--primary-color);
+  padding: 1rem;
+}
+
+/* Total row above the checkout button */
+.cart-total {
+  text-align: right;
+  padding: 1rem;
+  border-top: 2px solid var(--secondary-color);
+  font-size: 1.2rem;
+}
+
+.cart-checkout-btn {
+  width: 100%;
+  background-color: var(--accent-color2);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.cart-checkout-btn:hover {
+  background-color: #6b3520;
+}
+
+
+/* FOOTER
+   Same Dust.webp texture as the navbar for consistency.
+   .footer-container uses CSS Grid with auto-fit +
+   minmax(250px, 1fr) — columns auto-collapse as the
+   screen shrinks, no media query needed for reflow.
+   ────────────────────────────────────────────── */
+footer {
+  display: flex;
+  flex-direction: column;
+  background-color: #1a1a1a;
+  background-image: url('../assets/background/Dust.webp');
+  background-repeat: repeat;
+  background-size: 200px;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+  min-height: auto;
+}
+
+/* Auto-responsive columns — no media query needed */
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  padding: 3rem 2rem;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.footer-section h3 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+/* Footer links: grey by default, gold on hover */
+.footer-section ul li a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-section ul li a:hover {
+  color: var(--secondary-color);
+}
+
+.footer-section p a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-section p a:hover {
+  color: var(--secondary-color);
+}
+
+.footer-section p {
+  margin: 0.5rem 0;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+/* Social icon circles — gold filled, lift on hover */
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  color: #1A1108;
+  background-color: var(--secondary-color);
+  text-decoration: none;
+  border: 1px solid var(--secondary-color);
+  border-radius: 50%;
+  font-size: 2.2rem;
+  transition: all 0.2s ease;
+}
+
+.social-link:hover {
+  background-color: #e8c06a;
+  border-color: #e8c06a;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+
+/* BREADCRUMBS (interior pages)
+   The "/" separator between crumbs is generated
+   entirely by CSS using ::before { content: '/' }
+   on any crumb that follows another — no extra
+   HTML elements needed.
+   ────────────────────────────────────────────── */
+.breadcrumb-nav {
+  background-color: var(--nav-bg);
+  background-image: url('../assets/background/Dust.webp');
+  background-repeat: repeat;
+  background-size: 350px;
+  width: 100%;
+  padding: .75rem 2rem;
+  border-top: none;
+  margin-top: -2em;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.7), 0 -12px 48px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  border-radius: 2em 2em 0 0;
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.6rem 0;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #888;
+}
+
+/* Inserts "/" before every crumb except the first */
+.breadcrumb-item + .breadcrumb-item::before {
+  content: '/';
+  margin-right: 0.25rem;
+  color: #555;
+}
+
+.breadcrumb-item a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.breadcrumb-item a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+
+/* FOOTER MAP (Google Maps embed)
+   line-height: 0 removes the small gap browsers
+   add below inline elements (the iframe is treated
+   like a character with a descender baseline).
+   */
+.footer-map {
+  width: 100%;
+  max-width: 100%;
+  line-height: 0; /* removes the invisible gap below the iframe */
+  overflow: hidden;
+}
+
+.footer-map iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Copyright bar at the very bottom of the page */
+.footer-bottom {
+  background-color: #0a0a0a;
+  background-image: url('../assets/background/Dust.webp');
+  background-repeat: repeat;
+  background-size: 200px;
+  text-align: center;
+  padding: 1.5rem 2rem;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+
+/* PAGE HERO (used on all interior pages)
+   Same triple-background technique as the homepage
+   hero (two offset dust layers + gradient).
+   padding-top: calc(68px + 3rem) offsets the fixed
+   navbar so heading text isn't hidden behind it.
+   ────────────────────────────────────────────── */
+.page-hero {
+  padding: calc(68px + 3rem) 2rem 5rem;
+  text-align: center;
+  background-image: url('../assets/background/Dust.webp'), url('../assets/background/Dust.webp'),
+                    linear-gradient(155deg, #1a1108 0%, #3b2a0e 55%, #11362A 100%);
+  background-repeat: repeat, repeat, no-repeat;
+  background-size: 380px, 210px, cover;
+  background-position: 0 0, 105px 105px, center;
+  color: #fff;
+
+}
+
+.page-hero h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.page-hero h2 span {
+  color: var(--secondary-color);
+}
+
+.page-hero p {
+  font-size: 1rem;
+  max-width: 540px;
+  margin: 0 auto;
+  opacity: 0.78;
+  line-height: 1.7;
+  text-align: left;
+
+}
+
+
+/* FILTER BAR (Bikes / Accessories pages)
+   Pill-shaped filter buttons.
+   border-radius: 20px gives the rounded "chip" look.
+   Active and hover states fill solid from transparent.
+  */
+.filter-section {
+  padding: 2rem 2rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid rgba(92, 73, 34, 0.35);
+  color: var(--text-color);
+  padding: 0.45rem 1.1rem;
+  border-radius: 20px; /* pill shape */
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  font-family: var(--font-family);
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+
+
+
+
+/* PRODUCT GRID + CARDS
+   auto-fill + minmax(280px, 1fr) creates as many
+   columns as will fit at 280px minimum — fully
+   responsive with no media queries needed.
+   Cards lift with translateY(-4px) on hover for
+   a "pick up" effect.
+   ────────────────────────────────────────────── */
+.products-section {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Responsive grid — auto-fills columns, no media query */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card lifts off the page on hover */
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
+}
+
+/* Fixed-height image area; overflow: hidden clips the zoom */
+.product-img-wrap {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.product-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crops to fill without distorting */
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* Image zooms inside the clipped container on hover */
+.product-card:hover .product-img-wrap img {
+  transform: scale(1.04);
+}
+
+/* flex: 1 stretches info area so price row is always at the bottom */
+.product-info {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Category label chip (e.g. "Mountain", "Road") */
+.product-tag {
+  display: inline-block;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 3px;
+  margin-bottom: 0.6rem;
+  width: fit-content;
+}
+
+/* E-bike tag overrides colour to forest green */
+.ebike-tag {
+  background: var(--accent-color);
+}
+
+.product-info h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.4rem;
+}
+
+/* flex: 1 on description pushes footer row down */
+.product-info p {
+  font-size: 0.88rem;
+  color: #666;
+  line-height: 1.5;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+/* Price + button row pinned to the bottom of the card */
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.product-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* min-height: 44px meets Apple/Google touch target guidelines */
+.add-to-cart-btn {
+  background: var(--secondary-color);
+  color: var(--nav-bg);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.15s;
+  font-family: var(--font-family);
+  white-space: nowrap;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-to-cart-btn:hover {
+  background: #e8c06a;
+  transform: translateY(-1px);
+}
+
+
+/* SHARED SECTION TITLES
+   Used across Products, Services, Hire.
+   The <span> inside gets the gold accent colour.
+   ────────────────────────────────────────────── */
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.section-title span {
+  color: var(--secondary-color);
+}
+
+.section-subtitle {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+
+/* HIRE PAGE
+   Reuses .product-img-wrap and .product-card
+   patterns with hire-specific overrides.
+   margin-top: auto on .hire-book-btn pins it to
+   the bottom of the flex column card.
+   ────────────────────────────────────────────── */
+.hire-fleet-section,
+.hire-info-section {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hire-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.hire-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
+}
+
+.hire-card .product-img-wrap {
+  height: 190px;
+}
+
+.hire-info {
+  padding: 1.2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hire-info h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.35rem;
+}
+
+.hire-info p {
+  font-size: 0.88rem;
+  color: #666;
+  line-height: 1.5;
+  flex: 1;
+  margin-bottom: 0.75rem;
+}
+
+/* Half-day / Full-day price badges side by side */
+.hire-pricing {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.hire-price-badge {
+  background: var(--background-color);
+  border: 1px solid rgba(92, 73, 34, 0.2);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+  text-align: center;
+  min-width: 80px;
+}
+
+.hire-price-badge .price-label {
+  display: block;
+  color: #888;
+  font-size: 0.72rem;
+  margin-bottom: 0.1rem;
+}
+
+.hire-price-badge .price-value {
+  display: block;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+/* margin-top: auto pins this button to the bottom of the flex column */
+.hire-book-btn {
+  display: block;
+  text-align: center;
+  background: var(--secondary-color);
+  color: #1A1108;
+  padding: 0.55rem 1rem;
+  border-radius: 5px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.15s;
+  margin-top: auto;
+}
+
+.hire-book-btn:hover {
+  background: #e8c06a;
+  color: #1A1108;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* "How It Works" numbered step cards */
+.how-it-works {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.hiw-step {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+/* Circle with step number (1, 2, 3...) */
+.hiw-step .step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hiw-step h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.4rem;
+}
+
+.hiw-step p {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+
+/* SERVICES PAGE
+   ★ EXTRAORDINARY TECHNIQUE — IMAGE BLEED ★
+   .service-img uses negative margins to break out
+   of the card's padding and touch the edges.
+   width: calc(100% + 3.6rem) = card width + both sides of padding (1.8rem x 2).
+   margin: -1.8rem -1.8rem 1.2rem pulls the image
+   to the top and both sides of the padded card.
+   Creates a full-bleed image header inside a padded
+   card — no extra wrapper element needed.
+   ────────────────────────────────────────────── */
+.services-section {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+/* Gold left-border accent on each service card */
+.service-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.8rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid var(--secondary-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+/* Full-bleed image — negative margins break out of the card padding */
+.service-img {
+  width: calc(100% + 3.6rem);  /* 100% + left 1.8rem + right 1.8rem */
+  margin: -1.8rem -1.8rem 1.2rem; /* pulls to top and both sides */
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0; /* rounded top corners only */
+  display: block;
+}
+.service-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.service-card p {
+  font-size: 0.88rem;
+  color: #666;
+  line-height: 1.55;
+  margin-bottom: 1rem;
+}
+/* Service includes list — gold em-dash bullet via CSS, no HTML character */
+.service-includes {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+.service-includes li {
+  font-size: 0.84rem;
+  color: #555;
+  padding: 0.2rem 0;
+}
+/* Gold "— " bullet generated entirely in CSS */
+.service-includes li::before {
+  content: "— ";
+  color: var(--secondary-color);
+  font-weight: 700;
+}
+.service-price {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+/* Services CTA banner — same triple-background as hero */
+.services-cta {
+  background-image: url('../assets/background/Dust.webp'), url('../assets/background/Dust.webp'),
+                    linear-gradient(155deg, #1a1108 0%, #3b2a0e 55%, #11362A 100%);
+  background-repeat: repeat, repeat, no-repeat;
+  background-size: 380px, 210px, cover;
+  background-position: 0 0, 105px 105px, center;
+  color: #fff;
+  text-align: center;
+  padding: 4rem 2rem;
+  margin-top: 3rem;
+}
+.services-cta h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.services-cta p {
+  opacity: 0.8;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+/* Shared CTA button (Services, About, and other pages) */
+.cta-btn {
+  display: inline-block;
+  background: var(--secondary-color);
+  color: #1A1108;
+  padding: 0.85rem 2.2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: background 0.2s, transform 0.15s;
+}
+.cta-btn:hover {
+  background: #e8c06a;
+  color: #1A1108;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+
+/* ─── ABOUT PAGE ──────────────────────────────────────────── */
+/* max-width: 860px keeps long-form text at a comfortable reading width */
+.about-story {
+  padding: 4rem 2rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.about-story h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+.about-story p {
+  color: #555;
+  line-height: 1.8; /* generous line-height for long-form readability */
+  margin-bottom: 1rem;
+}
+.about-values {
+  background: var(--background-color);
+  padding: 3.5rem 2rem;
+}
+.about-values .section-title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.about-values .section-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2.5rem;
+}
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.value-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  text-align: center;
+  border-radius: 4em;
+}
+.value-card .value-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.85rem;
+}
+.value-icon img{
+  max-width: 800px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4em;
+}
+.value-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+.value-card p {
+  font-size: 0.88rem;
+  color: #666;
+  line-height: 1.6;
+}
+/* TEAM SECTION*/
+.about-team {
+  padding: 3.5rem 2rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.about-team .section-title {
+  margin-bottom: 0.5rem;
+}
+.about-team .section-subtitle {
+  color: #666;
+  margin-bottom: 2.5rem;
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+.team-card {
+  text-align: center;
+}
+/* Circular avatar placeholder */
+.team-avatar {
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+  color: #fff;
+}
+.team-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 100%;
+  display: block;
+
+}
+.team-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.2rem;
+}
+.team-card p {
+  font-size: 0.85rem;
+  color: #777;
+}
+/* About CTA — gradient transition to footer,  dust texture */
+.about-cta {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #2d1f0a 100%);
+  color: #fff;
+  text-align: center;
+  padding: 3.5rem 2rem;
+  background-color: var(--nav-bg);
+  background-image: url('../assets/background/Dust.webp'), linear-gradient(355deg, #1a1a1a 37%, #3b2a0e 80%, #11362A 100%);
+  background-repeat: repeat;
+  background-size: 380px, cover;
+  
+
+}
+.about-cta h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.about-cta p {
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+}
+
+
+/* CONTACT PAGE
+   Two-column layout: form (wider) left, info cards right.
+   1.4fr 1fr gives the form ~58% and info ~42% width.
+   Collapses to single column on mobile.
+*/
+.contact-section {
+  padding: 3rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr; /* form wider than info column */
+  gap: 2.5rem;
+}
+.contact-form-wrap {
+  background: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+.contact-form-wrap h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+.form-group {
+  margin-bottom: 1.2rem;
+}
+.form-group label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.4rem;
+}
+/* All form controls share the same appearance */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgba(92, 73, 34, 0.25);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background: var(--background-color);
+  transition: border-color 0.18s;
+  box-sizing: border-box;
+}
+/* Gold border highlight on focus — removes default browser outline */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+/* Textarea: user can resize vertically only */
+.form-group textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+.form-submit-btn {
+  width: 100%;
+  background: var(--secondary-color);
+  color: var(--nav-bg);
+  border: none;
+  padding: 0.8rem;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-family);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background 0.18s, transform 0.15s;
+}
+.form-submit-btn:hover {
+  background: #e8c06a;
+  transform: translateY(-1px);
+}
+/* Right column: stacked info cards */
+.contact-info-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.contact-info-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+.contact-info-card h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.contact-info-card p {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 0.35rem;
+}
+.contact-info-card a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+.contact-info-card a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+
+/* ACCESSORIES PAGE
+   Group heading (e.g. "Helmets", "Lights") uses
+   display: inline-block + border-bottom so the
+   gold underline is only as wide as the text,
+   not the full container width.
+*/
+.accessories-section {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Gold underline only as wide as the heading text (inline-block) */
+.accessory-group-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--secondary-color);
+  display: inline-block;
+}
+
+
+
+
+
+
+
+/* BURGER / MOBILE NAV
+   ★ EXTRAORDINARY TECHNIQUE — CSS HAMBURGER TO X ★
+   The button contains THREE <span> elements (bars).
+   On mobile (<=768px), display: flex shows the button.
+
+   When .nav-open is added to .navbar by JS:
+     Bar 1 slides down 9px then rotates 45deg  (top arm of X)
+     Bar 2 shrinks to nothing and fades         (disappears)
+     Bar 3 slides up 9px then rotates -45deg   (bottom arm of X)
+
+   The 9px offset is because the button is 20px tall
+   and bars are spaced at 0, 50%, 100%. The middle is
+   at 10px, so 9px moves them to almost overlap at centre.
+
+   No SVG, no icon font, no JS drawing — pure CSS transforms.
+   margin-left: auto pushes the button to the right edge.
+*/
+.nav-burger {
+  display: none; /* hidden on desktop */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  margin-left: auto; /* push to right edge of navbar */
+}
+/* Each of the three burger bars */
+.nav-burger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--secondary-color); /* gold bars */
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+/* Bar 1 — top arm of the X */
+.navbar.nav-open .nav-burger span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+/* Bar 2 — disappears */
+.navbar.nav-open .nav-burger span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+/* Bar 3 — bottom arm of the X */
+.navbar.nav-open .nav-burger span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+/* Mobile: 3-col feature layout */
+@media (max-width: 480px) {
+  .photo-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 160px 160px 140px;
+  }
+
+  .grid-feature {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+
+  .grid-item {
+    height: auto;
+  }
+}
+/* Tablet: 3-col feature layout */
+@media (max-width: 768px) {
+  .photo-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 200px 200px 180px;
+  }
+
+  .grid-feature {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+
+  .grid-item {
+    height: auto;
+  }
+
+/* On mobile the toast stretches edge-to-edge */
+  .toast-notification {
+    right: 10px;
+    left: 10px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+  }
+
+    .filter-btn {
+    padding: 0.65rem 1.2rem;
+    min-height: 48px;
+    font-size: 0.95rem;
+  }
+
+   .nav-link-item {
+    padding: 0.75rem 1rem;
+    min-height: 48px;
+    font-size: 0.95rem;
+  }
+
+   .add-to-cart-btn {
+    padding: 0.75rem 1.25rem;
+    min-height: 48px; /* iOS recommended tap target */
+    font-size: 0.9rem;
+  }
+
+  .contact-section {
+    grid-template-columns: 1fr; /* single column on mobile */
+  }
+
+  /* Show burger on mobile */
+  .nav-burger {
+    display: flex;
+    width: 29px;
+    height: 21px;
+    margin-right: 4rem;
+  }
+
+  /* Nav links hidden by default on mobile */
+  .nav-links {
+    display: none;
+    width: 100%;
+  }
+
+  /* Navbar shrinks in height on mobile */
+  .navbar {
+    flex-wrap: nowrap;
+    padding: 0 1.25rem;
+    height: 68px;
+    overflow: visible; /* lets the dropdown panel extend below */
+
+  }
+
+  /* Remove rounded bottom when menu is open (panel continues the shape) */
+  .navbar.nav-open {
+    border-radius: 0;
+  }
+
+  /* Open mobile menu: full-width dropdown panel below navbar */
+  .navbar.nav-open .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    top: 68px; /* directly below the 68px navbar */
+    left: 0;
+    right: 0;
+    transform: none; /* override the desktop centring transform */
+    padding: 0.4rem 1.25rem 1rem;
+    gap: 0;
+    background-color: var(--nav-bg);
+    background-image: url('../assets/background/Dust.webp');
+    background-repeat: repeat;
+    background-size: 350px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+    z-index: 997;
+  }
+
+  .navbar.nav-open .nav-links .dropdown {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar.nav-open .nav-links .nav-link-item {
+    width: 100%;
+    padding: 0.55rem 0.5rem;
+  }
+
+
+  /* Static dropdowns inside mobile menu */
+  .navbar.nav-open .dropdown-menu {
+    position: static !important; /* override desktop absolute positioning */
+    float: none;
+    background: rgba(0, 0, 0, 0.25);
+    border: none;
+    box-shadow: none;
+    padding: 0.25rem 0 0.25rem 1rem; /* indent sub-items */
+    margin: 0;
+    border-radius: 0;
+    display: none;
+  }
+
+  .navbar.nav-open .dropdown.show .dropdown-menu {
+    display: block;
+    padding-bottom: 1rem;
+  }
+
+
+}

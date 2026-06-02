@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repairs &amp; Services — Borders Bike King</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUarbnLyQY5kD4/do3m8JBtAfZMcsPMTscjhdsmLlWGQOrcovCP" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <header>
+        <nav class="navbar" id="mainNav">
+            <a href="../index.html" class="nav-logo">
+                <h1 class="logo"><span class="logo1">Borders</span> <span class="logo2">Bike King</span></h1>
+            </a>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a class="nav-link-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><span>Shop</span></a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="./bikes.html"><span>Bikes</span></a>
+                        <a class="dropdown-item" href="./accessories.html"><span>Accessories</span></a>
+                        <a class="dropdown-item" href="./clothing.html"><span>Clothing</span></a>
+                    </div>
+                </div>
+                <a class="nav-link-item" href="./hire.html"><span>Hire</span></a>
+                <a class="nav-link-item" href="./services.html"><span>Services</span></a>
+                <a class="nav-link-item" href="./about.html"><span>About</span></a>
+                <a class="nav-link-item" href="./contact-us-form.html"><span>Contact</span></a>
+                <div class="cart-wrapper">
+                    <img src="../assets/cart.svg" id="cart" alt="Shopping cart">
+                    <span id="cartCount" class="cart-count">0</span>
+                </div>
+            </div>
+            <button class="nav-burger" id="navBurger" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- PAGE HERO -->
+        <section class="page-hero">
+            <h2>Repairs &amp; <span>Services</span></h2>
+            <p>Keep your bike in peak condition. Our experienced mechanics handle everything from a quick puncture fix to a complete professional overhaul.</p>
+        </section>
+
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <ol class="breadcrumb-list">
+                <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Services</li>
+            </ol>
+        </nav>
+
+        <!-- SERVICES GRID -->
+        <section class="services-section">
+            <h2 class="section-title">What We <span>Offer</span></h2>
+            <p class="section-subtitle">All work is carried out by qualified mechanics using quality parts. Turn-around times vary — call ahead for urgent repairs.</p>
+
+            <div class="services-grid">
+
+                <div class="service-card">
+                    <img class="service-img" src="../assets/main/services/basic-service.webp" alt="Mechanic performing a basic bike service">
+                    <h3>Basic Service</h3>
+                    <p>A quick health check and freshen-up to keep your bike running smoothly between full services.</p>
+                    <ul class="service-includes">
+                        <li>Safety inspection</li>
+                        <li>Chain clean and lube</li>
+                        <li>Brake and gear adjustment</li>
+                        <li>Tyre pressure check</li>
+                    </ul>
+                    <span class="service-price">From £35</span>
+                </div>
+
+                <div class="service-card">
+                    <img class="service-img" src="../assets/main/services/drivetrain.webp" alt="Bike drivetrain and gears being tuned">
+                    <h3>Drivetrain Tune-Up</h3>
+                    <p>Full drivetrain clean, cable replacement, and precise gear indexing for smooth, reliable shifting.</p>
+                    <ul class="service-includes">
+                        <li>Full drivetrain degrease</li>
+                        <li>New shift and brake cables</li>
+                        <li>Derailleur alignment</li>
+                        <li>Gear indexing and limit screws</li>
+                    </ul>
+                    <span class="service-price">From £65</span>
+                </div>
+
+                <div class="service-card">
+                    <img class="service-img" src="../assets/main/services/overhaul.webp" alt="Full bike strip-down and overhaul">
+                    <h3>Full Overhaul</h3>
+                    <p>Complete strip-down, clean, inspect, and rebuild. The most thorough service we offer — recommended annually.</p>
+                    <ul class="service-includes">
+                        <li>Full strip and clean</li>
+                        <li>All bearings repacked or replaced</li>
+                        <li>Brake bleed (hydraulic) or cable replacement</li>
+                        <li>Safety inspection with written report</li>
+                    </ul>
+                    <span class="service-price">From £120</span>
+                </div>
+
+                <div class="service-card">
+                    <img class="service-img" src="../assets/main/services/wheel-truing.webp" alt="Bicycle wheel being trued on a truing stand">
+                    <h3>Wheel Truing</h3>
+                    <p>Spoke tension balanced and rim straightened so your wheels spin true with no wobble or hop.</p>
+                    <ul class="service-includes">
+                        <li>Spoke tension check</li>
+                        <li>Lateral and radial truing</li>
+                        <li>Rim inspection for cracks</li>
+                    </ul>
+                    <span class="service-price">From £20 per wheel</span>
+                </div>
+
+                <div class="service-card">
+                    <img class="service-img" src="../assets/main/services/puncture-repair.webp" alt="Puncture repair and inner tube replacement">
+                    <h3>Puncture Repair</h3>
+                    <p>Fast tube replacement or tubeless plug repair so you can get back on the trail quickly.</p>
+                    <ul class="service-includes">
+                        <li>Tube replacement (tube extra)</li>
+                        <li>Tubeless plug and reseal</li>
+                        <li>Valve and rim tape check</li>
+                    </ul>
+                    <span class="service-price">From £10</span>
+                </div>
+
+                <div class="service-card">
+                    <img class="service-img" src="../assets/main/services/custom-build.webp" alt="Custom bike build from a bare frame">
+                    <h3>Custom Build</h3>
+                    <p>Got a frameset? We'll spec and build your dream bike from scratch with components to suit your budget and riding style.</p>
+                    <ul class="service-includes">
+                        <li>Component selection advice</li>
+                        <li>Full build from bare frame</li>
+                        <li>Test ride and final setup</li>
+                    </ul>
+                    <span class="service-price">Build from £80 (parts extra)</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CTA BANNER -->
+        <section class="services-cta">
+            <h3>Ready to book your bike in?</h3>
+            <p>Get in touch and we'll arrange a convenient drop-off time. Most services are completed within 2–3 working days.</p>
+            <a href="./contact-us-form.html" class="cta-btn">Book a Service</a>
+        </section>
+
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-modal-content">
+            <span class="close" id="closeCart">&times;</span>
+            <h2>Shopping Cart</h2>
+            <div id="cartItems" class="cart-items"></div>
+            <div class="cart-total"><strong>Total: £<span id="cartTotal">0.00</span></strong></div>
+            <button class="cart-checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="./bikes.html">Bikes</a></li>
+                    <li><a href="./accessories.html">Accessories</a></li>
+                    <li><a href="./services.html"><span>Services</span></a></li>                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="./hire.html">Bike Hire</a></li>
+                    <li><a href="./contact-us-form.html">Contact</a></li>
+                    <li><a href="./about.html">About Us</a></li>
+                    <li><a href="./privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>77 Bank Street</p>
+                <p>Galashiels, TD1 1EN</p>
+                <p>Scottish Borders</p>
+                <p>Phone: <a href="tel:01896753456">01896 753 456</a></p>
+                <p>Email: <a href="mailto:info@bikesking.com">info@bikesking.com</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.x.com" target="_blank" rel="noopener" class="social-link" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.youtube.com" target="_blank" rel="noopener" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-map">
+            <iframe
+                src="https://maps.google.com/maps?q=Galashiels,+Scottish+Borders,+UK&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                
+                height="250"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Borders Bike King location">
+            </iframe>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Borders Bike King. Explore the borders.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWbSxccPQtF3EpF3fnJHog6LaEVF0DjKjSWm19D81p0q5I9S6" crossorigin="anonymous"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/nav-burger.js"></script>
+</body>
+</html>
