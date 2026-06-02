@@ -6,6 +6,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
 /* COLOR PALETTE (CSS Variables)
      --primary-color    dark brown  (headings, buttons)
      --secondary-color  gold        (highlights, accents)
@@ -19,13 +20,13 @@
   --secondary-color: #D5AD59;
   --accent-color: #11362A;
   --accent-color2: #8C4A2F;
-
   --nav-bg: #1A1108;
   --background-color: #F0EBE0;
   --text-color: #1A1714;
   --font-family: 'Inter', sans-serif;
   --logo-font-family: 'Audacity Script';
 }
+
 /* NAV-BAR // LOGO LINK — SLIDING UNDERLINE ON HOVER
    The underline bar doesn't exist until hover.
    ::after creates an invisible line (width: 0).
@@ -37,6 +38,7 @@
   position: relative;   /* so ::after can be placed inside it */
   display: inline-block;
 }
+
 /* Hidden underline bar — starts at width 0 */
 .nav-logo::after {
   content: '';
@@ -52,16 +54,13 @@
 .nav-logo:hover {
   text-decoration: none;
 }
+
 /* On hover the bar grows to match the logo width */
 .nav-logo:hover::after {
   width: 100%;
 }
+
 /* LOGO TEXT
-   ★  NATIVE CSS NESTING ★
-   .logo1 and .logo2 are nested INSIDE .logo using
-   modern native CSS nesting (no Sass/preprocessor).
-   Groups child styles with their parent, cleaner
-   than writing separate rules for each.
    cubic-bezier(0.4, 0, 0.2, 1) = Material Design
    "standard" easing for smooth transforms.
    ────────────────────────────────────────────── */
@@ -72,16 +71,17 @@
   line-height: 1;
   white-space: nowrap;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Native CSS nesting */
-  .logo1 {
-    color: var(--secondary-color); /* gold */
-  }
-  .logo2 {
-    color: #ffffff;
-  }
 }
 
-/*HTML + BODY BASE
+.logo .logo1 {
+  color: var(--secondary-color); /* gold */
+}
+
+.logo .logo2 {
+  color: #fff;
+}
+
+/* HTML + BODY BASE
    overflow-x: hidden on BOTH html AND body stops
    horizontal scrollbars caused by full-width
    elements (hero, footer etc.).
@@ -95,6 +95,7 @@ html {
   overflow-x: hidden;
   background-color: var(--background-color);
 }
+
 html body {
   font-family: var(--font-family);
   margin: 0;
@@ -125,6 +126,7 @@ header {
   background: transparent;
   height: 0; /* takes no flow space — navbar is position: fixed */
 }
+
 .navbar {
   position: fixed;
   top: 0;
@@ -139,12 +141,14 @@ header {
   background-image: url('../assets/background/Dust.webp');
   background-repeat: repeat;
   background-size: 350px;
+
   /* Three-layer shadow: close dark + far dark + subtle inner highlight */
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7), 0 12px 48px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  box-shadow: 0 6px 16px rgb(0, 0, 0, 0.7), 0 12px 48px rgb(0, 0, 0, 0.6), 0 1px 0 rgb(255, 255, 255, 0.06) inset;
   border-radius: 0 0 16px 16px; /* rounded bottom corners only */
   z-index: 999;
   font-family: var(--font-family);
 }
+
 /*  NAV LINKS — PERFECTLY CENTRED
    ★ EXTRAORDINARY TECHNIQUE ★
    position: absolute + left: 50% + translateX(-50%)
@@ -163,11 +167,13 @@ header {
   left: 50%;
   transform: translateX(-50%); /* shift left by half its own width */
 }
+
 .nav-links .dropdown {
   display: flex;
   align-items: center;
   position: relative; /* anchor for the dropdown panel */
 }
+
 /* Right side of navbar: Login + Cart */
 .nav-actions {
   display: flex;
@@ -175,10 +181,12 @@ header {
   gap: 1.25rem;
   padding-right: 0.5rem;
 }
+
 /* Cart sits inside nav-links, after the Contact link */
 .nav-links .cart-wrapper {
   margin-left: 1rem;
 }
+
 /* NAV LINK ITEMS
    Transparent background by default.
    Hover shows a gold underline on the <span>
@@ -187,7 +195,7 @@ header {
    shifting the layout height.
    ────────────────────────────────────────────── */
 .nav-link-item {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgb(255, 255, 255, 0.78);
   font-size: 0.88rem;
   font-weight: 500;
   padding: 0.45rem 0.8rem;
@@ -199,6 +207,7 @@ header {
   align-items: center;
   min-height: auto;
 }
+
 /* The <span> inside each link holds the animated underline */
 .nav-links .nav-link-item span {
   border-bottom: 2px solid transparent; /* invisible until hover */
@@ -210,6 +219,7 @@ header {
   background-color: transparent;
   text-decoration: none;
 }
+
 /* Gold underline appears on hover */
 .nav-links .nav-link-item:hover span,
 .nav-links .nav-link-item:focus span {
@@ -232,17 +242,19 @@ header {
   left: 0;
   min-width: 160px;
   background-color: #231a0e;
-  border: 1px solid rgba(213, 173, 89, 0.22);
+  border: 1px solid rgb(213, 173, 89, 0.22);
   border-radius: 8px;
   padding: 0.35rem;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 32px rgb(0, 0, 0, 0.5);
   margin-top: 0;
   z-index: 1000;
 }
+
 .navbar .dropdown-menu.show,
 .navbar .dropdown:hover .dropdown-menu {
   display: block;
 }
+
 /* Invisible hover bridge so cursor can reach the menu without it closing */
 .navbar .dropdown-menu::before {
   content: '';
@@ -252,6 +264,7 @@ header {
   right: 0;
   height: 8px;
 }
+
 /* DROPDOWN ARROW (chevron)
    ★ EXTRAORDINARY TECHNIQUE — CSS TRIANGLE ★
    No image, no icon font needed.
@@ -270,26 +283,30 @@ header {
   border-left: 0.15em solid transparent;
   border-right: 0.15em solid transparent;
 }
+
 /* Dropdown items — gold underline on hover, consistent with nav links */
 .navbar .dropdown-item {
   display: block;
   width: 100%;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgb(255, 255, 255, 0.82);
   border-radius: 6px;
   font-size: 0.88rem;
   padding: 1rem 1.1rem;
   text-decoration: none;
   box-sizing: border-box;
 }
+
 .navbar .dropdown-item span {
   border-bottom: 2px solid transparent;
   padding-bottom: 2px;
   display: inline-block;
 }
+
 .navbar .dropdown-item:hover span {
   border-bottom-color: var(--secondary-color);
 }
+
 /* CART ICON + BADGE
    The SVG is recoloured white using CSS filter:
    brightness(0) = turn it black, invert(1) = flip to white.
@@ -305,6 +322,7 @@ header {
   align-items: center;
   cursor: pointer;
 }
+
 #cart {
   width: 22px;
   height: 22px;
@@ -312,6 +330,7 @@ header {
   opacity: 0.8;
   transition: opacity 0.2s;
 }
+
 #cart:hover {
   opacity: 1;
 }
@@ -351,12 +370,14 @@ main {
   color: #fff;
   text-align: left;
 }
+
 /* Carousel slides — stack behind content */
 .hero-carousel {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
+
 .hero-slide {
   position: absolute;
   inset: 0;
@@ -365,9 +386,11 @@ main {
   opacity: 0;
   transition: opacity 1.4s ease-in-out;
 }
+
 .hero-slide.active {
   opacity: 1;
 }
+
 /* Dark gradient overlay — preserves brand colours, keeps text readable */
 .hero-overlay {
   position: absolute;
@@ -375,12 +398,13 @@ main {
   background-image:
     url('../assets/background/Dust.webp'),
     url('../assets/background/Dust.webp'),
-    linear-gradient(155deg, rgba(26,17,8,0.78) 0%, rgba(59,42,14,0.72) 55%, rgba(17,54,42,0.74) 100%);
+    linear-gradient(155deg, rgb(26,17,8,0.78) 0%, rgb(59,42,14,0.72) 55%, rgb(17,54,42,0.74) 100%);
   background-repeat: repeat, repeat, no-repeat;
   background-size: 380px, 210px, cover;
   background-position: 0 0, 105px 105px, center;
   z-index: 1;
 }
+
 /* Hero text and button sit above overlay */
 .hero-content {
   position: relative;
@@ -390,6 +414,7 @@ main {
   align-items: center;
   text-align: left;
 }
+
 .hero-section h2 {
   font-family: var(--logo-font-family);
   font-size: 4rem;
@@ -397,10 +422,12 @@ main {
   margin-bottom: 1rem;
   color: #fff;
 }
+
 /* Gold accent word inside the hero heading */
 .hero-section h2 span {
   color: var(--secondary-color);
 }
+
 .hero-section p {
   font-size: 1.1rem;
   max-width: 560px;
@@ -409,6 +436,7 @@ main {
   line-height: 1.7;
   font-weight:600;
 }
+
 /* CTA button — uppercase gold, lifts 2px on hover */
 .hero-btn {
   display: inline-block;
@@ -417,14 +445,13 @@ main {
   padding: 0.85rem 2.4rem;
   border-radius: 5px;
   text-decoration: none;
-  font-weight: 700;
   font-size: 0.95rem;
   letter-spacing: 0.04em;
-
   text-transform: uppercase;
   transition: background 0.2s, transform 0.15s;
   font-weight: 800;
 }
+
 .hero-btn:hover {
   background: #e8c06a;
   color: #1A1108;
@@ -464,11 +491,8 @@ main {
   position: absolute;
   inset: 0; /* shorthand for top/right/bottom/left: 0 */
   background-color: var(--primary-color);
-  -webkit-mask-image: url('../assets/background/Dust.webp'); /* Safari prefix */
   mask-image: url('../assets/background/Dust.webp');
-  -webkit-mask-repeat: repeat;
   mask-repeat: repeat;
-  -webkit-mask-size: 400px;
   mask-size: 400px;
   opacity: 0.85;
   pointer-events: none; /* invisible to clicks/interactions */
@@ -568,7 +592,7 @@ main {
 }
 
 .video-logo-text .logo2 {
-  color: #ffffff;
+  color: #fff;
 }
 
 /* overflow: hidden clips the zoom animation at rounded corners */
@@ -655,7 +679,7 @@ video {
   border-radius: 8px;
   font-weight: 600;
   z-index: 2000;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgb(0, 0, 0, 0.2);
   animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* slight overshoot = snappy feel */
 }
 
@@ -665,6 +689,7 @@ video {
     transform: translateX(400px);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -677,6 +702,7 @@ video {
     transform: translateX(0);
     opacity: 1;
   }
+
   to {
     transform: translateX(400px);
     opacity: 0;
@@ -709,7 +735,7 @@ video {
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgb(0, 0, 0, 0.2);
 }
 
 /* x close button — float: right puts it top-right of the modal */
@@ -910,7 +936,7 @@ footer {
   margin-top: -2em;
   position: relative;
   z-index: 1;
-  box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.7), 0 -12px 48px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  box-shadow: 0 -6px 16px rgb(0, 0, 0, 0.7), 0 -12px 48px rgb(0, 0, 0, 0.6), 0 1px 0 rgb(255, 255, 255, 0.06) inset;
   border-radius: 2em 2em 0 0;
 }
 
@@ -950,7 +976,7 @@ footer {
 }
 
 .breadcrumb-item.active {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgb(255, 255, 255, 0.55);
 }
 
 
@@ -1045,7 +1071,7 @@ footer {
 
 .filter-btn {
   background: transparent;
-  border: 1px solid rgba(92, 73, 34, 0.35);
+  border: 1px solid rgb(92, 73, 34, 0.35);
   color: var(--text-color);
   padding: 0.45rem 1.1rem;
   border-radius: 20px; /* pill shape */
@@ -1094,7 +1120,7 @@ footer {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgb(0, 0, 0, 0.08);
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
@@ -1103,7 +1129,7 @@ footer {
 /* Card lifts off the page on hover */
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
+  box-shadow: 0 8px 24px rgb(0, 0, 0, 0.13);
 }
 
 /* Fixed-height image area; overflow: hidden clips the zoom */
@@ -1252,7 +1278,7 @@ footer {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgb(0, 0, 0, 0.08);
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
@@ -1260,7 +1286,7 @@ footer {
 
 .hire-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
+  box-shadow: 0 8px 24px rgb(0, 0, 0, 0.13);
 }
 
 .hire-card .product-img-wrap {
@@ -1299,7 +1325,7 @@ footer {
 
 .hire-price-badge {
   background: var(--background-color);
-  border: 1px solid rgba(92, 73, 34, 0.2);
+  border: 1px solid rgb(92, 73, 34, 0.2);
   border-radius: 6px;
   padding: 0.4rem 0.8rem;
   font-size: 0.82rem;
@@ -1356,7 +1382,7 @@ footer {
   border-radius: 10px;
   padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 10px rgb(0, 0, 0, 0.07);
 }
 
 /* Circle with step number (1, 2, 3...) */
@@ -1404,24 +1430,28 @@ footer {
   max-width: 1200px;
   margin: 0 auto;
 }
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
 }
+
 /* Gold left-border accent on each service card */
 .service-card {
   background: #fff;
   border-radius: 10px;
   padding: 1.8rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgb(0, 0, 0, 0.08);
   border-left: 4px solid var(--secondary-color);
   transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .service-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgb(0, 0, 0, 0.12);
 }
+
 /* Full-bleed image — negative margins break out of the card padding */
 .service-img {
   width: calc(100% + 3.6rem);  /* 100% + left 1.8rem + right 1.8rem */
@@ -1431,6 +1461,7 @@ footer {
   border-radius: 10px 10px 0 0; /* rounded top corners only */
   display: block;
 }
+
 .service-card h3 {
   font-size: 1.1rem;
   font-weight: 700;
@@ -1444,28 +1475,33 @@ footer {
   line-height: 1.55;
   margin-bottom: 1rem;
 }
+
 /* Service includes list — gold em-dash bullet via CSS, no HTML character */
 .service-includes {
   list-style: none;
   padding: 0;
   margin: 0 0 1rem;
 }
+
 .service-includes li {
   font-size: 0.84rem;
   color: #555;
   padding: 0.2rem 0;
 }
+
 /* Gold "— " bullet generated entirely in CSS */
 .service-includes li::before {
   content: "— ";
   color: var(--secondary-color);
   font-weight: 700;
 }
+
 .service-price {
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--primary-color);
 }
+
 /* Services CTA banner — same triple-background as hero */
 .services-cta {
   background-image: url('../assets/background/Dust.webp'), url('../assets/background/Dust.webp'),
@@ -1478,11 +1514,13 @@ footer {
   padding: 4rem 2rem;
   margin-top: 3rem;
 }
+
 .services-cta h3 {
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
 }
+
 .services-cta p {
   opacity: 0.8;
   margin-bottom: 1.5rem;
@@ -1503,6 +1541,7 @@ footer {
   text-transform: uppercase;
   transition: background 0.2s, transform 0.15s;
 }
+
 .cta-btn:hover {
   background: #e8c06a;
   color: #1A1108;
@@ -1512,36 +1551,43 @@ footer {
 
 
 /* ─── ABOUT PAGE ──────────────────────────────────────────── */
+
 /* max-width: 860px keeps long-form text at a comfortable reading width */
 .about-story {
   padding: 4rem 2rem;
   max-width: 860px;
   margin: 0 auto;
 }
+
 .about-story h2 {
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 1rem;
 }
+
 .about-story p {
   color: #555;
   line-height: 1.8; /* generous line-height for long-form readability */
   margin-bottom: 1rem;
 }
+
 .about-values {
   background: var(--background-color);
   padding: 3.5rem 2rem;
 }
+
 .about-values .section-title {
   text-align: center;
   margin-bottom: 0.5rem;
 }
+
 .about-values .section-subtitle {
   text-align: center;
   color: #666;
   margin-bottom: 2.5rem;
 }
+
 .values-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -1549,19 +1595,21 @@ footer {
   max-width: 960px;
   margin: 0 auto;
 }
+
 .value-card {
   background: #fff;
-  border-radius: 10px;
   padding: 1.75rem 1.5rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 12px rgb(0,0,0,0.07);
   text-align: center;
   border-radius: 4em;
 }
+
 .value-card .value-icon {
   font-size: 2rem;
   color: var(--primary-color);
   margin-bottom: 0.85rem;
 }
+
 .value-icon img{
   max-width: 800px;
   width: 100%;
@@ -1569,38 +1617,46 @@ footer {
   object-fit: contain;
   border-radius: 4em;
 }
+
 .value-card h3 {
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 0.5rem;
 }
+
 .value-card p {
   font-size: 0.88rem;
   color: #666;
   line-height: 1.6;
 }
-/* TEAM SECTION*/
+
+/* TEAM SECTION */
 .about-team {
   padding: 3.5rem 2rem;
   max-width: 960px;
   margin: 0 auto;
 }
+
 .about-team .section-title {
   margin-bottom: 0.5rem;
 }
+
 .about-team .section-subtitle {
   color: #666;
   margin-bottom: 2.5rem;
 }
+
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
 }
+
 .team-card {
   text-align: center;
 }
+
 /* Circular avatar placeholder */
 .team-avatar {
   width: 360px;
@@ -1614,6 +1670,7 @@ footer {
   font-size: 2rem;
   color: #fff;
 }
+
 .team-avatar img {
   width: 100%;
   height: 100%;
@@ -1622,16 +1679,19 @@ footer {
   display: block;
 
 }
+
 .team-card h3 {
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 0.2rem;
 }
+
 .team-card p {
   font-size: 0.85rem;
   color: #777;
 }
+
 /* About CTA — gradient transition to footer,  dust texture */
 .about-cta {
   background: linear-gradient(135deg, var(--primary-color) 0%, #2d1f0a 100%);
@@ -1645,11 +1705,13 @@ footer {
   
 
 }
+
 .about-cta h3 {
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
 }
+
 .about-cta p {
   opacity: 0.85;
   margin-bottom: 1.5rem;
@@ -1669,21 +1731,25 @@ footer {
   grid-template-columns: 1.4fr 1fr; /* form wider than info column */
   gap: 2.5rem;
 }
+
 .contact-form-wrap {
   background: #fff;
   border-radius: 10px;
   padding: 2rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgb(0, 0, 0, 0.08);
 }
+
 .contact-form-wrap h3 {
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 1.5rem;
 }
+
 .form-group {
   margin-bottom: 1.2rem;
 }
+
 .form-group label {
   display: block;
   font-size: 0.88rem;
@@ -1691,13 +1757,14 @@ footer {
   color: var(--text-color);
   margin-bottom: 0.4rem;
 }
+
 /* All form controls share the same appearance */
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
   padding: 0.65rem 0.9rem;
-  border: 1px solid rgba(92, 73, 34, 0.25);
+  border: 1px solid rgb(92, 73, 34, 0.25);
   border-radius: 6px;
   font-size: 0.9rem;
   font-family: var(--font-family);
@@ -1706,6 +1773,7 @@ footer {
   transition: border-color 0.18s;
   box-sizing: border-box;
 }
+
 /* Gold border highlight on focus — removes default browser outline */
 .form-group input:focus,
 .form-group select:focus,
@@ -1713,11 +1781,13 @@ footer {
   outline: none;
   border-color: var(--secondary-color);
 }
+
 /* Textarea: user can resize vertically only */
 .form-group textarea {
   min-height: 130px;
   resize: vertical;
 }
+
 .form-submit-btn {
   width: 100%;
   background: var(--secondary-color);
@@ -1733,22 +1803,26 @@ footer {
   letter-spacing: 0.04em;
   transition: background 0.18s, transform 0.15s;
 }
+
 .form-submit-btn:hover {
   background: #e8c06a;
   transform: translateY(-1px);
 }
+
 /* Right column: stacked info cards */
 .contact-info-wrap {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
+
 .contact-info-card {
   background: #fff;
   border-radius: 10px;
   padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 10px rgb(0, 0, 0, 0.07);
 }
+
 .contact-info-card h4 {
   font-size: 0.9rem;
   font-weight: 700;
@@ -1757,16 +1831,19 @@ footer {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
 .contact-info-card p {
   font-size: 0.9rem;
   color: #555;
   line-height: 1.6;
   margin-bottom: 0.35rem;
 }
+
 .contact-info-card a {
   color: var(--primary-color);
   text-decoration: none;
 }
+
 .contact-info-card a:hover {
   color: var(--secondary-color);
   text-decoration: underline;
@@ -1834,6 +1911,7 @@ footer {
   flex-shrink: 0;
   margin-left: auto; /* push to right edge of navbar */
 }
+
 /* Each of the three burger bars */
 .nav-burger span {
   display: block;
@@ -1843,21 +1921,25 @@ footer {
   border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
+
 /* Bar 1 — top arm of the X */
 .navbar.nav-open .nav-burger span:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
 }
+
 /* Bar 2 — disappears */
 .navbar.nav-open .nav-burger span:nth-child(2) {
   opacity: 0;
   transform: scaleX(0);
 }
+
 /* Bar 3 — bottom arm of the X */
 .navbar.nav-open .nav-burger span:nth-child(3) {
   transform: translateY(-9px) rotate(-45deg);
 }
+
 /* Mobile: 3-col feature layout */
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .photo-grid {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 160px 160px 140px;
@@ -1872,8 +1954,9 @@ footer {
     height: auto;
   }
 }
+
 /* Tablet: 3-col feature layout */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .photo-grid {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 200px 200px 180px;
@@ -1963,7 +2046,7 @@ footer {
     background-repeat: repeat;
     background-size: 350px;
     border-radius: 0 0 16px 16px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 6px 16px rgb(0, 0, 0, 0.7);
     z-index: 997;
   }
 
@@ -1983,7 +2066,7 @@ footer {
   .navbar.nav-open .dropdown-menu {
     position: static !important; /* override desktop absolute positioning */
     float: none;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgb(0, 0, 0, 0.25);
     border: none;
     box-shadow: none;
     padding: 0.25rem 0 0.25rem 1rem; /* indent sub-items */
